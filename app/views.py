@@ -1,11 +1,26 @@
 from django.shortcuts import render
+from .models import *
+from django.views import View
 
-def home(request):
- return render(request, 'app/home.html')
-
-def product_detail(request):
- return render(request, 'app/productdetail.html')
-
+# def home(request):
+#  return render(request, 'app/home.html')
+class ProductView(View):
+ def get(self, request):
+    #  Filtering products to home page  by categrty and subcategory
+     sherwani=Product.objects.filter(category='SH')
+     suits=Product.objects.filter(category='S')
+     bottomwears=Product.objects.filter(category='BW')
+     return render(request, 'app/home.html',
+                   {'sherwani':sherwani,'bottomwears':bottomwears,'suits':suits})
+ 
+ 
+# def product_detail(request):
+#  return render(request, 'app/productdetail.html')
+class ProductDetailsVeiw(View):
+   def get(self,request,pk):
+      product=Product.objects.get(pk=pk)
+      return render(request, 'app/productdetail.html',{'product':product})
+   
 def add_to_cart(request):
  return render(request, 'app/addtocart.html')
 

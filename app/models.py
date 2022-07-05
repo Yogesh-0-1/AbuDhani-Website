@@ -58,8 +58,8 @@ class Customer(models.Model):
     
 CATEGORY_CHOICES  =  (
     ('M','Mobile'),
-    ('L','Laptop'),
-    ('TW','Top Wear'),
+    ('S','Suit'),
+    ('SH','Sherwani'),
     ('BW','Bottom Wear'),
 )
 
@@ -70,7 +70,7 @@ class Product(models.Model):
     description = models.TextField()
     brand = models.CharField(max_length = 100)
     category = models.CharField(choices = CATEGORY_CHOICES,max_length = 2 )
-    # product_image = models.ImageField(upload_to = 'productimg') # TO use ImageField We have to install Pillow Library
+    product_image = models.ImageField(upload_to = 'productimg') # TO use ImageField We have to install Pillow Library
     def __str__(self):
         return str(self.id)
     

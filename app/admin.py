@@ -7,7 +7,7 @@ class CustomerModelAdmin(admin.ModelAdmin):
     
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display= ['id','title','selling_price','discounted_price','description','brand','category']
+    list_display= ['id','title','selling_price','discounted_price','description','brand','category','product_image']
  
 @admin.register(Cart)
 class CartModelAdmin(admin.ModelAdmin):
