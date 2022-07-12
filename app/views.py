@@ -43,8 +43,7 @@ def sherwanis(request,data=None):
       sherwani=Product.objects.filter(category='SH').filter(brand=data)
    return render(request, 'app/sherwani.html',{'sherwani':sherwani})
 
-def login(request):
- return render(request, 'app/login.html')
+
 
 # def customerregistration(request):
 #  return render(request, 'app/customerregistration.html')
