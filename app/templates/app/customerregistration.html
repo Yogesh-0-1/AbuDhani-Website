@@ -7,12 +7,9 @@ Registration{% endblock title %} {% block main-content %}
       <hr />
 
       <form action="" method="post" novalidate class="shadow p-5">
-        {% if messages%}
-        {% for message in messages%}
+        {% if messages%} {% for message in messages%}
         <div class="alert alert-{{message.tags}}">{{message}}</div>
-        {% endfor %}
-        {% endif %}
-        {% csrf_token %} {% for fm in form %}
+        {% endfor %} {% endif %} {% csrf_token %} {% for fm in form %}
         <div class="form-group mb-3">
           {{fm.label}} {{fm}}
           <small class="text-danger"> {{fm.errors|striptags}}</small>
@@ -23,7 +20,7 @@ Registration{% endblock title %} {% block main-content %}
         <div class="text-center text-primary fw-bold">
           <small>
             Existing User ?
-            <a href="{url 'login'}" class="text-danger"> Login Now</a>
+            <a href="{% url 'login'%}" class="text-danger"> Login Now</a>
           </small>
         </div>
         {% if form.non_field_errors %} {% for error in non_field_errors %}
