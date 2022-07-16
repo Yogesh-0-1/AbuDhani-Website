@@ -87,7 +87,7 @@
               placeholder="Search"
               aria-label="Search"
             />
-            <button class="btn btn-warning" type="submit">S</button>
+            <button class="btn btn-warning" type="submit">AD</button>
           </form>
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -101,7 +101,7 @@
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  Sonam
+                  {{request.user.username|capfirst}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                   <li>
