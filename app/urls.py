@@ -18,7 +18,8 @@ urlpatterns = [
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
     path('paymentdone/', views.payment_done, name='paymentdone'),
-    path('sherwani/<slug:data>', views.sherwanis, name='sherwanidata'),
+    path('sherwani/<slug:data>', views.sherwani, name='sherwanidata'),
+    path('sherwani/', views.sherwani, name='sherwani'),
     
     path('accounts/login/', auth_views.LoginView.as_view(template_name='app/login.html', authentication_form=LoginForm), name='login'),
     path('logout/',auth_views.LogoutView.as_view(next_page='login'), name='logout'),

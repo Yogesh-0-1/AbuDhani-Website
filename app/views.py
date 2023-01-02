@@ -172,12 +172,12 @@ def orders(request):
     
     
 @login_required
-def sherwanis(request,data=None):
+def sherwani(request,data=None):
    if data==None :
-      sherwani=Product.objects.filter(category='SH')
+      sherwanis=Product.objects.filter(category='SH')
    elif data== 'Manyavar' or data=='Samyakk':
-      sherwani=Product.objects.filter(category='SH').filter(brand=data)
-   return render(request, 'app/sherwani.html',{'sherwani':sherwani})
+      sherwanis=Product.objects.filter(category='SH').filter(brand=data)
+   return render(request, 'app/sherwani.html',{'sherwani':sherwanis})
 
 
 
