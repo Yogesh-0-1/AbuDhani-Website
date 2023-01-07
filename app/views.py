@@ -15,12 +15,22 @@ class ProductView(View):
      sherwani=Product.objects.filter(category='SH')
      suits=Product.objects.filter(category='S')
      bottomwears=Product.objects.filter(category='BW')
+     totalitem=0
+     if request.user.is_authenticated:
+                 totalitem=len(Cart.objects.filter(user=request.user))
      return render(request, 'app/home.html',
-                   {'sherwani':sherwani,'bottomwears':bottomwears,'suits':suits})
+                   {'sherwani':sherwani,'bottomwears':bottomwears,'suits':suits,'totalitem':totalitem})
 class ProductDetailsVeiw(View):
    def get(self,request,pk):
-      product=Product.objects.get(pk=pk)
-      return render(request, 'app/productdetail.html',{'product':product})
+             
+          
+          product=Product.objects.get(pk=pk)
+          item_already_in_cart=False
+          totalitem=0
+          if request.user.is_authenticated:
+                 totalitem=len(Cart.objects.filter(user=request.user))
+                 item_already_in_cart=Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()      
+          return render(request, 'app/productdetail.html',{'product':product,'item_already_in_cart':item_already_in_cart, 'totalitem':totalitem})
 
 
 @method_decorator(login_required ,name="dispatch")
