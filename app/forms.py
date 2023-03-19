@@ -6,14 +6,28 @@ from django.utils.translation import gettext_lazy as _ , gettext
 from django.contrib.auth import password_validation
 from .models import *
 class CustomerRegistrationForm(UserCreationForm):
-    password1: forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    password2: forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    
+    # password1 = forms.CharField(
+    #     widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password, 'align':'center', 'placeholder':'password'}),
+    # )
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'})
+    )
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class':'form-control', 'type':'password'}),
+    )
+
+    # password1: forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
+    # password2: forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','type':'password'}))
     email = forms.CharField(required=True,widget=forms.EmailInput(attrs={'class':'form-control'}))
+    username = forms.CharField(required=True,widget=forms.TextInput(attrs={'class':'form-control'}))
+    # username={'username':forms.TextInput(attrs={'class':'form-control'})}
+    
     class Meta:
         model = User
         fields = ['username','email','password1','password2']
         labels={'email':'Email','username':'Username','password1':'Password','password2':'Confirm Password'}
-        widgets={'username':forms.TextInput(attrs={'class':'form-control'})}
+        # widgets={'username':forms.TextInput(attrs={'class':'form-control'})}
     
 class LoginForm(AuthenticationForm):
     username=UsernameField(widget=forms.TextInput(attrs={'autofocus':True,'class':'form-control'})) 

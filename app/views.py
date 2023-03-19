@@ -1,5 +1,4 @@
 from django.shortcuts import render,redirect
-# from .models import Customer,Product,Cart,OrderPlaced
 from .models import *
 from django.views import View
 from .forms import CustomerProfileForm, CustomerRegistrationForm
@@ -8,6 +7,12 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django .views.decorators.csrf import csrf_exempt
+from .PayTm import Checksum
+
+# Create your views here.
+from django.http import HttpResponse
+MERCHANT_KEY = 'Your-Merchant-Key-Here'
 
 class ProductView(View):
  def get(self, request):
@@ -20,6 +25,7 @@ class ProductView(View):
                  totalitem=len(Cart.objects.filter(user=request.user))
      return render(request, 'app/home.html',
                    {'sherwani':sherwani,'bottomwears':bottomwears,'suits':suits,'totalitem':totalitem})
+
 class ProductDetailsVeiw(View):
    def get(self,request,pk):
              
@@ -220,6 +226,17 @@ def checkout(request):
                    tempamount=(p.quantity * p.product.discounted_price)
                    amount += tempamount
           total_amount=amount+shiping_amount
+       param_dict={
+            'MID': 'rqrfsb40106025550938',
+            'ORDER_ID': 'OrderPlaced.id',
+            'TXN_AMOUNT': str(amount),
+            'CUST_ID': 'email',
+            'INDUSTRY_TYPE_ID': 'Retail',
+            'WEBSITE': 'WEBSTAGING',
+            'CHANNEL_ID': 'WEB',
+            'CALLBACK_URL':'http://127.0.0.1:8000/app/handlerequest/',}
+       param_dict['CHECKSUMHASH'] = Checksum.generate_checksum(param_dict, MERCHANT_KEY)
+       return  render(request, 'app/paytm.html', {'param_dict': param_dict})
        
        return render(request, 'app/checkout.html',{'add':add,'total_amount':total_amount,'cart_items':cart_items})
     
@@ -235,5 +252,23 @@ def payment_done(request):
               OrderPlaced(user=user, customer=customer, product=c.product, quantity=c.quantity).save()
               c.delete() 
        return redirect("orders")
+
+@csrf_exempt
+def handlerequest(request):
+    # paytm will send you post request here
+    form = request.POST
+    response_dict = {}
+    for i in form.keys():
+        response_dict[i] = form[i]
+        if i == 'CHECKSUMHASH':
+            checksum = form[i]
+
+    verify = Checksum.verify_checksum(response_dict, MERCHANT_KEY, checksum)
+    if verify:
+        if response_dict['RESPCODE'] == '01':
+            print('order successful')
+        else:
+            print('order was not successful because' + response_dict['RESPMSG'])
+    return render(request, 'app/paymentstatus.html', {'response': response_dict})
               
 

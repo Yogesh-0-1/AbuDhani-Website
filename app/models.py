@@ -95,6 +95,7 @@ STATUS_CHOICES = (
 )
 
 class OrderPlaced(models.Model):
+    # order_id = models.AutoField(primary_key=True)
     user =  models.ForeignKey(User, on_delete=models.CASCADE)
     customer =  models.ForeignKey(Customer, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
