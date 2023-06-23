@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
-from ttr.xml.csv2xml import string2xml
+# from ttr.xml.csv2xml import string2xml
 import sys
 
 
